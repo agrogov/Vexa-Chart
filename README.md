@@ -66,7 +66,6 @@ Key values in `charts/vexa-lite/values.yaml`:
 
 ## Notes
 
-- The full chart assumes images contain the relevant binaries (e.g., bot-manager must include the bot runtime if using the `process` orchestrator).
 - For production, set explicit image repositories/tags and configure external Postgres/Redis and secrets management.
 
 ## License
