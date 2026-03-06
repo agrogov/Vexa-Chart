@@ -54,6 +54,8 @@ spec:
             {{- end }}
             - name: BOT_IMAGE_NAME
               value: {{ .Values.botManager.bot.imageName | quote }}
+            - name: BOT_IMAGE_PULL_POLICY
+              value: {{ default .Values.global.imagePullPolicy .Values.botManager.bot.imagePullPolicy | quote }}
             {{- with .Values.botManager.bot.resources }}
             - name: BOT_POD_CPU_REQUEST
               value: {{ .requests.cpu | quote }}
