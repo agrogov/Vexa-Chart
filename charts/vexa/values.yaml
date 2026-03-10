@@ -55,7 +55,7 @@ apiGateway:
     limits:
       cpu: 500m
       memory: 512Mi
-  extraEnv: {}
+  extraEnv: []
 
 adminApi:
   enabled: true
@@ -73,7 +73,7 @@ adminApi:
     limits:
       cpu: 500m
       memory: 512Mi
-  extraEnv: {}
+  extraEnv: []
 
 botManager:
   enabled: true
@@ -122,6 +122,7 @@ botManager:
   bot:
     # Image name Bot Manager will ask the orchestrator to run (used by docker/kubernetes orchestrators)
     imageName: "vexa-bot:dev"
+    imagePullPolicy: ""  # empty => falls back to global.imagePullPolicy
 
     # URL bots use to connect to WhisperLive (WebSocket).
     # In Kubernetes, you can point directly to the whisperlive Service.
@@ -144,7 +145,7 @@ botManager:
     limits:
       cpu: 4000m
       memory: 4Gi
-  extraEnv: {}
+  extraEnv: []
 
 transcriptionCollector:
   enabled: true
@@ -173,7 +174,7 @@ transcriptionCollector:
     redisSegmentTtlSeconds: 86400
     redisSpeakerEventTtlSeconds: 86400
 
-  extraEnv: {}
+  extraEnv: []
 
 transcriptionService:
   enabled: false
@@ -195,7 +196,7 @@ transcriptionService:
     limits:
       cpu: 2000m
       memory: 2Gi
-  extraEnv: {}
+  extraEnv: []
 
 whisperLive:
   enabled: true
@@ -259,7 +260,7 @@ whisperLive:
   nodeSelector: {}
   tolerations: []
   affinity: {}
-  extraEnv: {}
+  extraEnv: []
 
 mcp:
   enabled: true
@@ -277,7 +278,38 @@ mcp:
     limits:
       cpu: 1000m
       memory: 1Gi
-  extraEnv: {}
+  extraEnv: []
+
+decisionListener:
+  enabled: false
+  replicaCount: 1
+  image:
+    repository: vexa/decision-listener
+    tag: local
+  service:
+    type: ClusterIP
+    port: 8765
+  publicUrl: ""
+  config:
+    pubsubChannelPattern: "tc:meeting:*:mutable"
+    windowSegments: 30
+    offsetSegments: 1
+    debounceMs: 800
+    decisionsTtlSeconds: 7200
+  llm:
+    model: "gpt-4.1-mini"
+    baseUrl: ""
+    openaiApiKey: ""
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+  extraEnv: []
+  extraSecretName: ""
+  extraSecretEnv: {}
 
 dashboard:
   enabled: false
@@ -292,7 +324,7 @@ dashboard:
   #   ENABLE_AZURE_AD_AUTH: "true"
   #   NEXTAUTH_URL: ""
   env: {}
-  extraEnv: {}
+  extraEnv: []
   extraSecretName: ""
   extraSecretEnv: {}
   resources:

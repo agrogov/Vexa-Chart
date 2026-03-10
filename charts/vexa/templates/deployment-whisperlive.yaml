@@ -103,6 +103,8 @@ spec:
             - name: REMOTE_TRANSCRIBER_VAD_MODEL
               value: {{ . | quote }}
             {{- end }}
+            - name: WL_RECORDING_UPLOAD_URL
+              value: {{ printf "http://%s.%s.svc.%s:%d/internal/recordings/upload" (include "vexa.componentName" (list . "bot-manager")) .Release.Namespace .Values.global.clusterDomain (.Values.botManager.service.port | int) | quote }}
             {{- with .Values.whisperLive.extraEnv }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
