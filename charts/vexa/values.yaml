@@ -297,7 +297,7 @@ decisionListener:
     debounceMs: 800
     decisionsTtlSeconds: 7200
   llm:
-    model: "gpt-5-mini"
+    model: "gpt-4.1-mini"
     baseUrl: ""
     openaiApiKey: ""
   resources:
