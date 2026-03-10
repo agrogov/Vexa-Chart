@@ -355,6 +355,14 @@ migrations:
       cpu: 200m
       memory: 256Mi
 
+# Shared MinIO/S3 config (used by bot-manager for recording storage)
+minioConfig:
+  enabled: false          # set to true to inject MINIO_* env vars into bot-manager
+  storageBackend: "minio" # "minio", "s3", or "local"
+  endpoint: ""            # auto-filled if minio.enabled=true, else REQUIRED
+  bucket: "vexa-recordings"
+  useSSL: false
+
 # ---------- Optional bundled dependencies (for dev) ----------
 
 postgres:
@@ -391,6 +399,28 @@ redis:
     limits:
       cpu: 1000m
       memory: 1Gi
+
+minio:
+  enabled: false
+  image: minio/minio:RELEASE.2025-09-07T16-13-09Z
+  existingSecretName: ""   # if set, uses this secret; otherwise auto-creates one
+  auth:
+    rootUser: ""       # leave empty to auto-generate
+    rootPassword: ""   # leave empty to auto-generate
+  defaultBucket: "vexa-recordings"
+  service:
+    apiPort: 9000
+    consolePort: 9001
+  persistence:
+    size: 50Gi
+    storageClassName: ""
+  resources:
+    requests:
+      cpu: 200m
+      memory: 512Mi
+    limits:
+      cpu: 2000m
+      memory: 2Gi
 
 # ---------- Ingress (optional; exposes api-gateway by default) ----------
 ingress:
