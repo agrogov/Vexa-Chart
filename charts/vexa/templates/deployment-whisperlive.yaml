@@ -89,7 +89,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.secrets.existingSecretName | quote }}
-                  key: TRANSCRIBER_API_KEY
+                  key: {{ .Values.whisperLive.remoteTranscriber.apiKeySecretKey | default "TRANSCRIBER_API_KEY" }}
             {{- end }}
             {{- with .Values.whisperLive.remoteTranscriber.model }}
             - name: REMOTE_TRANSCRIBER_MODEL

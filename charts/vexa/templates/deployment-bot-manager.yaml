@@ -112,6 +112,26 @@ spec:
             - name: DOCKER_HOST
               value: "unix:///var/run/docker.sock"
             {{- end }}
+            {{- if .Values.minioConfig.enabled }}
+            - name: STORAGE_BACKEND
+              value: {{ .Values.minioConfig.storageBackend | quote }}
+            - name: MINIO_ENDPOINT
+              value: {{ include "vexa.minioEndpoint" . | quote }}
+            - name: MINIO_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "vexa.minioSecretName" . }}
+                  key: MINIO_ROOT_USER
+            - name: MINIO_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "vexa.minioSecretName" . }}
+                  key: MINIO_ROOT_PASSWORD
+            - name: MINIO_BUCKET
+              value: {{ .Values.minioConfig.bucket | quote }}
+            - name: MINIO_SECURE
+              value: {{ .Values.minioConfig.useSSL | quote }}
+            {{- end }}
             {{- with .Values.botManager.extraEnv }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
