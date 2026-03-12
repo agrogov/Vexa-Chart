@@ -196,6 +196,9 @@ transcriptionService:
     limits:
       cpu: 2000m
       memory: 2Gi
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
   extraEnv: []
 
 whisperLive:
