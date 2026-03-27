@@ -69,6 +69,8 @@ spec:
               value: {{ .Values.whisperLive.tuning.pingIntervalSeconds | quote }}
             - name: WL_PING_TIMEOUT_S
               value: {{ .Values.whisperLive.tuning.pingTimeoutSeconds | quote }}
+            - name: WL_MAX_CONNECTION_TIME
+              value: {{ .Values.whisperLive.tuning.maxConnectionTimeSeconds | quote }}
             - name: DEVICE_TYPE
               value: {{ .Values.whisperLive.profile | quote }}
             - name: WHISPER_MODEL_SIZE
@@ -89,7 +91,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.secrets.existingSecretName | quote }}
-                  key: TRANSCRIBER_API_KEY
+                  key: {{ .Values.whisperLive.remoteTranscriber.apiKeySecretKey | default "TRANSCRIBER_API_KEY" }}
             {{- end }}
             {{- with .Values.whisperLive.remoteTranscriber.model }}
             - name: REMOTE_TRANSCRIBER_MODEL
