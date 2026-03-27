@@ -233,6 +233,7 @@ whisperLive:
     consulEnable: false
     pingIntervalSeconds: 20
     pingTimeoutSeconds: 60
+    maxConnectionTimeSeconds: 3600
 
   cache:
     enabled: true
